@@ -28,7 +28,7 @@ initialize({
         url: "/",
       },
       {
-        url: "https://f6b4-202-43-6-22.ngrok.io",
+        url: "https://f6b4-XXX-XX-X-XX.ngrok.io",
       },
     ],
     paths: {},

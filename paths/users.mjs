@@ -1,8 +1,4 @@
-const testUserData = {
-  id: "abcdef-123456",
-  name: "Test user",
-  email: "testuser@email.address",
-};
+import mockDatabaseInstance from "../database.mjs";
 
 export default function () {
   let operations = {
@@ -11,11 +7,13 @@ export default function () {
   };
 
   function GET(req, res, next) {
-    res.status(200).json([testUserData]);
+    res.status(200).json(mockDatabaseInstance.getAll());
   }
 
   function POST(req, res, next) {
-    res.status(201).json(testUserData);
+    const data = req.body;
+    mockDatabaseInstance.addUser(data);
+    res.status(201).json(mockDatabaseInstance.getAll());
   }
 
   GET.apiDoc = {
