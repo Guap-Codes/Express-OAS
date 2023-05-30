@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: A getting started API.
+  version: 1.0.0
+servers:
+  - url: /
+  - url: https://f6b4-XXX-XX-X-XX.ngrok.io
+paths:
+  /users:
+    parameters: []
+    get:
+      summary: Returns list of users
+      operationId: getUsers
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Creates a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Newly created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{id}:
+    parameters: []
+    get:
+      summary: Returns a single user
+      operationId: getOneUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Updates an existing user
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      summary: Deletes an existing user
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+          content: {}
+components:
+  schemas:
+    User:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: The user's unique identifier
+        name:
+          type: string
+          description: The user's preferred name
+        email:
+          type: string
+          description: Email address
