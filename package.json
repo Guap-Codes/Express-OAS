@@ -1,6 +1,7 @@
 {
   "name": "express-oas",
-  "main": "index.mjs",
+  "type": "module",
+  "main": "index.js",
   "scripts": {},
   "dependencies": {
     "bump-cli": "^2.5.0",

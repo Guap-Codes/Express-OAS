@@ -1,4 +1,4 @@
-import mockDatabaseInstance from "../database.mjs";
+import mockDatabaseInstance from "../database.js";
 
 export default function () {
   let operations = {
