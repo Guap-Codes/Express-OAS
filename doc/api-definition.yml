@@ -1,11 +1,36 @@
 openapi: 3.0.0
 info:
-  title: A getting started API.
+  title: User Management API
   version: 1.0.0
 servers:
   - url: /
-  - url: https://f6b4-XXX-XX-X-XX.ngrok.io
 paths:
+  /auth:
+    post:
+      summary: Authenticate user
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
   /users:
     parameters: []
     get:
@@ -103,3 +128,10 @@ components:
         email:
           type: string
           description: Email address
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  security:
+    - bearerAuth: []

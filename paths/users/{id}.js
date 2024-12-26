@@ -1,5 +1,15 @@
-import mockDatabaseInstance from "../../database.js";
+/**
+ * @fileoverview User detail routes for individual user operations
+ * @module paths/users/id
+ */
 
+import mockDatabaseInstance from "../../database.js";
+import { verifyToken, checkPermission } from '../../middleware/auth.js';
+
+/**
+ * User detail route operations
+ * @returns {Object} Route handlers and their OpenAPI documentation
+ */
 export default function () {
   let operations = {
     GET,
@@ -7,22 +17,73 @@ export default function () {
     DELETE,
   };
 
+  // Add middleware to operations
+  GET.middleware = [
+    verifyToken,
+    checkPermission('read')
+  ];
+
+  PUT.middleware = [
+    verifyToken,
+    checkPermission('update')
+  ];
+
+  DELETE.middleware = [
+    verifyToken,
+    checkPermission('delete')
+  ];
+
+  /**
+   * Retrieve a single user by ID
+   * 
+   * @function GET
+   * @param {import('express').Request} req - Express request object
+   * @param {import('express').Response} res - Express response object
+   * @param {import('express').NextFunction} next - Express next middleware function
+   * @throws {Error} When user is not found
+   */
   function GET(req, res, next) {
-    const user = mockDatabaseInstance.getOne(req.params.id);
-    res.status(200).json(user);
+    try {
+      const user = mockDatabaseInstance.getOne(req.params.id);
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
   }
 
+  /**
+   * Update a user by ID
+   * 
+   * @function PUT
+   * @param {import('express').Request} req - Express request object
+   * @param {import('express').Response} res - Express response object
+   * @param {import('express').NextFunction} next - Express next middleware function
+   * @throws {Error} When user is not found
+   */
   function PUT(req, res, next) {
     const data = req.body;
     const updatedUser = mockDatabaseInstance.updateUser(req.params.id, data);
     res.status(200).json(updatedUser);
   }
 
+  /**
+   * Delete a user by ID
+   * 
+   * @function DELETE
+   * @param {import('express').Request} req - Express request object
+   * @param {import('express').Response} res - Express response object
+   * @param {import('express').NextFunction} next - Express next middleware function
+   * @throws {Error} When user is not found
+   */
   function DELETE(req, res, next) {
     mockDatabaseInstance.deleteUser(req.params.id);
     res.status(204).send();
   }
 
+  /**
+   * OpenAPI documentation for GET operation
+   * @type {Object}
+   */
   GET.apiDoc = {
     summary: "Returns a single user",
     operationId: "getOneUser",
@@ -50,6 +111,10 @@ export default function () {
     },
   };
 
+  /**
+   * OpenAPI documentation for PUT operation
+   * @type {Object}
+   */
   PUT.apiDoc = {
     summary: "Updates an existing user",
     operationId: "updateUser",
@@ -86,6 +151,10 @@ export default function () {
     },
   };
 
+  /**
+   * OpenAPI documentation for DELETE operation
+   * @type {Object}
+   */
   DELETE.apiDoc = {
     summary: "Deletes an existing user",
     operationId: "deleteUser",

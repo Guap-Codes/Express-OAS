@@ -1,28 +1,30 @@
-name: Deploy documentation
+name: Bump Version and Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  deploy-doc:
-    name: Deploy API doc on Bump
+  bump-version:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install NodeJS
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
         with:
-          node-version: '18.x'
-      - name: Install node dependencies
-        run: npm install
-      - name: Generate OpenAPI contract
-        run: node contract.js > doc/api-definition.yml
-      - name: Deploy API documentation
-        uses: bump-sh/github-action@v1
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          doc: express-oas-example
-          token: ${{secrets.BUMP_TOKEN}}
-          file: doc/api-definition.yml
+          node-version: '20.x'
+          
+      - name: Bump version
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          npm version patch -m "Bump version to %s [skip ci]"
+          
+      - name: Push changes
+        run: git push --follow-tags
