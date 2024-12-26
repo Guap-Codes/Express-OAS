@@ -22,8 +22,8 @@ A RESTful API service built with Express.js and OpenAPI for user management with
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Guap-Codes/express-oas.git
-cd express-oas
+git clone https://github.com/Guap-Codes/Express-OAS.git
+cd Express-OAS
 ```
 
 2. Install dependencies:
