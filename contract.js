@@ -3,7 +3,8 @@
  * @module contract
  */
 
-import { OpenAPIFramework } from "openapi-framework";
+import pkg from 'openapi-framework';
+const { OpenAPIFramework } = pkg;
 
 /**
  * Generate OpenAPI definition file from API routes and documentation
