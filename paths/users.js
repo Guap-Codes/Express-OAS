@@ -37,7 +37,7 @@ export default function () {
    *   // ... more users
    * ]
    */
-  function GET(req, res, next) {
+  function GET(req, res) {
     res.status(200).json(mockDatabaseInstance.getAll());
   }
 
@@ -59,7 +59,7 @@ export default function () {
    *   "email": "jane@example.com"
    * }
    */
-  function POST(req, res, next) {
+  function POST(req, res) {
     const data = req.body;
     mockDatabaseInstance.addUser(data);
     res.status(201).json(mockDatabaseInstance.getAll());

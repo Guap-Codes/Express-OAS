@@ -3,7 +3,7 @@
  * @module contract
  */
 
-import OpenAPIFramework from "openapi-framework";
+import { OpenAPIFramework } from "openapi-framework";
 
 /**
  * Generate OpenAPI definition file from API routes and documentation
@@ -17,7 +17,7 @@ import OpenAPIFramework from "openapi-framework";
  * // Run from command line
  * node contract.js > api-definition.json
  */
-const framework = new OpenAPIFramework.default({
+const framework = new OpenAPIFramework({
   /**
    * Type of OpenAPI implementation
    * 'middleware' is used for Express.js integration

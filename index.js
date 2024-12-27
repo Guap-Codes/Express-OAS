@@ -56,7 +56,7 @@ initialize({
   paths: "./paths",
   promiseMode: true,
   validateApiDoc: true,
-  errorMiddleware: (err, req, res, next) => {
+  errorMiddleware: (err, req, res) => {
     // Log error
     console.error(err);
     if (err.status) {

@@ -87,11 +87,7 @@ function mockDatabase() {
       throw new Error(`No user with ID ${id} was found`);
     }
     const index = dataStore.findIndex((value) => value.id === id);
-    const updatedUser = {
-      ...dataStore[index],
-      ...data,
-      id, // Ensure ID remains unchanged
-    };
+    const updatedUser = Object.assign({}, dataStore[index], data, { id });
     dataStore.splice(index, 1, updatedUser);
     return updatedUser;
   }

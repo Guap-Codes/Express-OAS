@@ -39,15 +39,14 @@ export default function () {
    * @function GET
    * @param {import('express').Request} req - Express request object
    * @param {import('express').Response} res - Express response object
-   * @param {import('express').NextFunction} next - Express next middleware function
    * @throws {Error} When user is not found
    */
-  function GET(req, res, next) {
+  function GET(req, res) {
     try {
       const user = mockDatabaseInstance.getOne(req.params.id);
       res.status(200).json(user);
     } catch (error) {
-      next(error);
+      res.status(404).json({ message: error.message });
     }
   }
 
@@ -57,13 +56,16 @@ export default function () {
    * @function PUT
    * @param {import('express').Request} req - Express request object
    * @param {import('express').Response} res - Express response object
-   * @param {import('express').NextFunction} next - Express next middleware function
    * @throws {Error} When user is not found
    */
-  function PUT(req, res, next) {
-    const data = req.body;
-    const updatedUser = mockDatabaseInstance.updateUser(req.params.id, data);
-    res.status(200).json(updatedUser);
+  function PUT(req, res) {
+    try {
+      const data = req.body;
+      const updatedUser = mockDatabaseInstance.updateUser(req.params.id, data);
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
   }
 
   /**
@@ -72,12 +74,15 @@ export default function () {
    * @function DELETE
    * @param {import('express').Request} req - Express request object
    * @param {import('express').Response} res - Express response object
-   * @param {import('express').NextFunction} next - Express next middleware function
    * @throws {Error} When user is not found
    */
-  function DELETE(req, res, next) {
-    mockDatabaseInstance.deleteUser(req.params.id);
-    res.status(204).send();
+  function DELETE(req, res) {
+    try {
+      mockDatabaseInstance.deleteUser(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
   }
 
   /**
