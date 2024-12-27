@@ -1,13 +1,15 @@
 {
   "env": {
     "node": true,
-    "es2022": true
+    "es2022": true,
+    "jest": true
   },
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
+    "plugin:jest/recommended",
     "prettier"
   ],
   "parserOptions": {
@@ -25,5 +27,6 @@
     "node/prefer-promises/dns": "error",
     "node/prefer-promises/fs": "error",
     "import/no-named-as-default": "off"
-  }
+  },
+  "plugins": ["jest"]
 } 
