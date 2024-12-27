@@ -20,13 +20,30 @@ jobs:
         with:
           node-version: '20.x'
           
-      - name: Bump version
+      - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          npm version patch -m "Bump version to %s [skip ci]"
+          
+      - name: Get current version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+          
+      - name: Bump version if needed
+        run: |
+          if ! git rev-parse "v$CURRENT_VERSION" >/dev/null 2>&1; then
+            npm version patch -m "Bump version to %s [skip ci]"
+          else
+            echo "Version v$CURRENT_VERSION already exists, skipping version bump"
+          fi
           
       - name: Push changes
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
-        run: git push --follow-tags
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git push --follow-tags
+          else
+            echo "No changes to push"
+          fi
